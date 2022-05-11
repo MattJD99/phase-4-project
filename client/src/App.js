@@ -16,6 +16,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+          and be Dank. You can do this. 
         </a>
       </header>
     </div>
