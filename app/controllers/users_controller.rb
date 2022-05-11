@@ -1,14 +1,21 @@
 class UsersController < ApplicationController
-    before_action :set_user, only: [:show, :update, :destroy]
-      # GET /users
-    def index
-        @users = User.all
-
-        render json: @users
+    skip_before_action :authorized!, only: [:create]
+    
+    def create
+        user = User.create!(user_params)
+        session[:user_id] = user.id
+        render json: UserSerializer.new(user), status: :created
     end
 
-    # GET /users/1
     def show
-        render json: @user
+        render json: UserSerializer.new(@current_user), status: :ok
+    end
+
+
+
+    private
+
+    def user_params
+        params.permit(:username, :email, :password, :password_confirmation)
     end
 end
