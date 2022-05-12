@@ -165,4 +165,4 @@ const Signup = () => {
     );
 }
 
-export default Signup2
+export default Signup
