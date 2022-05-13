@@ -32,137 +32,96 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const Signup = () => {
-    const {signup} = useContext(UserContext);
-    const {setMessage} = useContext(MessageContext);
-    
-    const [userObj, setUserObj] = useState({
-        email: "",
-        password: "",
-        username: "",
-        passwordConfirmation: ""
-    });
+export default function SignIn() {
+  const {login, user, setUser} = useContext(UserContext);
+  const {setMessage} = useContext(MessageContext);
+  const history = useHistory()
+  const [userObj, setUserObj] = useState({
+      email: "",
+      password: ""
+  });
+  const handleChange = ({target: {name, value}}) => {
+      setUserObj({
+          ...userObj,
+          [name]: value
+      })
+  }
 
-    const history = useHistory()
-
-    const handleChange = ({target: {name, value}}) => {
-        setUserObj({
-            ...userObj,
-            [name]: value
-        })
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const didItWork = await login(userObj)
+    if (didItWork) {
+        history.push("/profile")
     }
+};
 
-    const handleSubmit = e => {
-        e.preventDefault()
-        if ([userObj.email, userObj.password, userObj.passwordConfirmation, userObj.username].some(val => val.trim() === "")) {
-            setMessage({message: "You must fill in all the information please!", color: "red"})
-        }
-        const didItWork = signup({...userObj, password_confirmation: userObj.passwordConfirmation})
-        if (didItWork) {
-            setMessage({message: "User successfully created!", color: "green"})
-            history.push("/profile")
-        }
-        
-        
-    }
-    return (
-        <ThemeProvider theme={theme}>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
+  return (
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign up
-              </Typography>
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="username"
-                      autoComplete="username"
-                      onChange={handleChange}
-                      value={userObj.username}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                      onChange={handleChange}
-                      value={userObj.email}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
-                      onChange={handleChange}
-                      value={userObj.password}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="passwordConfirmation"
-                      label="Password Confirmation"
-                      type="password"
-                      id="password-confirmation"
-                      autoComplete="new-password"
-                      onChange={handleChange}
-                      value={userObj.passwordConfirmation}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Checkbox value="allowExtraEmails" color="primary" />}
-                      label="I want to receive inspiration, marketing promotions and updates via email."
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign Up
-                </Button>
-                <Grid container justifyContent="flex-end">
-                  <Grid item>
-                    <Link href="/signin" variant="body2">
-                      Already have an account? Sign in
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
-            <Copyright sx={{ mt: 5 }} />
-          </Container>
-        </ThemeProvider>
-    );
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
+  );
 }
-
-export default Signup

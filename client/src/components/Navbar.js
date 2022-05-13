@@ -67,6 +67,16 @@ function Navbar() {
                 to="/login"
             >Login</NavLink> : null}
 
+            {!user ? <NavLink
+            activeStyle={{
+                fontWeight: "bolder",
+                color: "red"
+            }}
+                exact
+                style={style}
+                to="/signup"
+            >Sign Up</NavLink> : null}
+
             {user ? <NavLink
             activeStyle={{
                 fontWeight: "bolder",
