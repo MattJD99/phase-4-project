@@ -13,6 +13,8 @@ function UserProvider({ children }) {
             const resp = await fetch("/me")
              if (resp.status === 200) {
                 const data = await resp.json()
+                debugger
+                // setUser({...data.data.attributes, posts: data.data.relationships.posts.data})
                 setUser({...data.data.attributes, posts: data.data.relationships.posts.data})
              } else {
                 const errorObj = await resp.json()
@@ -23,7 +25,7 @@ function UserProvider({ children }) {
         }
     }, [setMessage])
 
-    const login = async (userInfo) => {
+    const login = async (signInData) => {
         try {
             const resp = await fetch("/login", {
                 method: "POST",
@@ -31,11 +33,11 @@ function UserProvider({ children }) {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify(userInfo)
+                body: JSON.stringify(signInData)
             })
             if (resp.status === 202) {
                 const data = await resp.json()
-                setUser({...data.data.attributes, posts: data.data.relationships.posts.data})
+                setUser({...data.data.attributes, workout: data.data.relationships.workout.data})
                 return true
             } else {
                 const errorObj = await resp.json()

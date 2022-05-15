@@ -19,7 +19,7 @@ function Login() {
   
     function handleSubmit(event) {
     event.preventDefault();
-    if ([userObj.name, userObj.password].some(val => val.trim() === "")) {
+    if ([userObj.username, userObj.password].some(val => val.trim() === "")) {
       setMessage({message: "You must fill in all the information please!", color: "red"})
       // alert("You must fill in all the information please.")
     }
@@ -62,7 +62,7 @@ function Login() {
                 <h3>Login</h3>
                   <form onSubmit={handleSubmit}>
                       <label htmlFor="name">Name: </label>          
-                      <input onChange={handleChange} type="text" name="name" value={userObj.username}  />
+                      <input onChange={handleChange} type="text" name="username" value={userObj.username}  />
                       <label htmlFor="password">Password: </label>  
                       <input onChange={handleChange} type="password" name="password" value={userObj.password} />
                       <input type="submit" value="Login"/>
