@@ -2,9 +2,8 @@ class UsersController < ApplicationController
     # skip_before_action :authorized!, only: [:create]
     
     def index
-        binding.pry
-        users = User.all
-        render json: users
+        user = User.all
+        render json: user, status: :ok
     end
 
     def create
@@ -19,6 +18,11 @@ class UsersController < ApplicationController
         render json: @current_user
     end
 
+    def destroy
+        @user.destroy
+        render json: {message: "Your profile has successfully been removed and destroyed."}, status: :ok
+    end
+    
     private
 
     def user_params

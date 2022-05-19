@@ -5,17 +5,18 @@ import {MessageContext} from "../context/message"
 const UserContext = React.createContext();
 
 function UserProvider({ children }) {
+    const history = useHistory();
     const [user, setUser] = useState(null);
     const {setMessage} = useContext(MessageContext)
 
+    // memoizing specifically involves caching the return values of a function
     const getCurrentUser = useCallback(async () => { 
         try {
             const resp = await fetch("/me")
              if (resp.status === 200) {
                 const data = await resp.json()
                 debugger
-                // setUser({...data.data.attributes, posts: data.data.relationships.posts.data})
-                setUser({...data.data.attributes, posts: data.data.relationships.posts.data})
+                setUser({...data.data.attributes, workouts: data.data.relationships.workouts.data})
              } else {
                 const errorObj = await resp.json()
                 setMessage({message: errorObj.error, color: "red"})
@@ -37,7 +38,10 @@ function UserProvider({ children }) {
             })
             if (resp.status === 202) {
                 const data = await resp.json()
-                setUser({...data.data.attributes, workout: data.data.relationships.workout.data})
+                setUser({...data.data.attributes, workouts: data.data.relationships.workouts.data})
+                // debugger
+                history.push("/profile")
+                debugger
                 return true
             } else {
                 const errorObj = await resp.json()
@@ -49,6 +53,7 @@ function UserProvider({ children }) {
             setMessage({message: e.message, color: "red"})
         }
     }
+
     const signup = async (userInfo) => {
         try {
             const resp = await fetch("/signup", {
@@ -61,7 +66,7 @@ function UserProvider({ children }) {
             })
             if (resp.status === 201) {
                 const data = await resp.json()
-                setUser({...data.data.attributes, posts: data.data.relationships.posts.data})
+                setUser({...data.data.attributes, workouts: data.data.relationships.workouts.data})
             } else {
                 const errorObj = await resp.json()
                 setMessage({message: errorObj.error, color: "red"})
