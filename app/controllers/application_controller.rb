@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
     include ActionController::Serialization
     rescue_from ActiveRecord::RecordNotFound, with: :no_route
     rescue_from ActiveRecord::RecordInvalid, with: :invalid_record
-    before_action :authorized!
+    # before_action :authorized!
     # wrap_parameters format: [] #related to strong params and its ability to build a nested object in params
 
     private
@@ -12,6 +12,7 @@ class ApplicationController < ActionController::API
     def current_user
         # If @current_user is nil or false, it will be set to User.find_by_id(session[:user_id])
         @current_user ||= User.find(session[:user_id]) if session[:user_id]
+        # binding.pry
     end
 
     def authorized!

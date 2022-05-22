@@ -1,11 +1,12 @@
 require 'pry'
 
 class SessionsController < ApplicationController
-    skip_before_action :authorized!, only: [:create]
+    # skip_before_action :authorized!, only: [:create]
 
     def create
         user = User.find_by_username(params[:username])
         if user&.authenticate(params[:password])
+            # binding.pry
             session[:user_id] = user.id #line responsible for signing someone in
             render json: UserSerializer.new(user), status: :accepted
             # binding.pry
@@ -15,7 +16,10 @@ class SessionsController < ApplicationController
     end
 
     def destroy
+        # binding.pry
         session.delete(:user_id)
+        # binding.pry
+        # render json: {message: "You have been logged out."}, status: :accepted
         head :no_content
     end
 

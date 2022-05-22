@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :users, only: [:update, :destroy]
   resources :workouts
   resources :exercises
+
+  post "/auth/:provider/callback", to: "sessions#omniauth"
   
   get "/users", to: "users#index"
   post "/signup", to: "users#create"
@@ -11,7 +13,7 @@ Rails.application.routes.draw do
   get "/profile", to: "users#show"
 
   post "/login", to: "sessions#create"
-  delete "/logout", to: "sessions#delete"
+  delete "/logout", to: "sessions#destroy"
 
 
   get "./client/public/favicon.ico", to: "fallback#index"

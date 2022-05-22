@@ -1,10 +1,10 @@
 import { useState, useContext } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {UserContext} from "../context/user";
 import {MessageContext} from "../context/message";
 
 function Login() {
-  // const history = useHistory()
+  const history = useHistory()
   const {login} = useContext(UserContext);
   const {setMessage} = useContext(MessageContext);
   
@@ -24,6 +24,10 @@ function Login() {
       // alert("You must fill in all the information please.")
     }
     login(userObj)
+    setMessage({message: "Login successful.", color: "green"})
+    // debugger
+    history.push("/profile")
+    // debugger
   }
 
   // fetch("/login", {

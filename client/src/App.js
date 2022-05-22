@@ -18,7 +18,7 @@ import Notification from "./components/Notification"
 import Logout from "./components/Logout"
 
 function App() {
-  const {getCurrentUser} = useContext(UserContext);
+  const {getCurrentUser,  user} = useContext(UserContext);
   const [exercise, setExercise] = useState(null);
   const [workout, setWorkout] = useState(null);
 
@@ -38,8 +38,10 @@ function App() {
   // })
 
   useEffect(() => {
-    getCurrentUser()
-}, [])
+      getCurrentUser()
+      // debugger
+      console.log("useEffect triggered to getCurrentUser")
+  }, [])
 
 //   useEffect(() => {
 //     const fetchData = async () => {
@@ -111,9 +113,9 @@ function App() {
         <Signup />
         </Route>
 
-        <Route path="/signup2">
+        {/* <Route path="/signup2">
         <Signup2 />
-        </Route>
+        </Route> */}
         
         <Route path="/">
           <Home />
