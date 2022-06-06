@@ -85,7 +85,7 @@ function Navbar() {
                 exact
                 style={style}
                 to="/profile"
-            >My Record</NavLink> : null}
+            >My Profile</NavLink> : null}
         </div>
     )
 }

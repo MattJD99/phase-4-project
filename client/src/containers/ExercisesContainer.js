@@ -6,23 +6,22 @@ function ExercisesContainer({ workout, setWorkout, exercise }) {
     const {user} = useContext(UserContext);
     
     const [addToWorkout, setAddToWorkout] = useState({
-            name: "",
+            user_id: "",
             exercise_id: ""
         })
         
-    function handleClick(event) {
-        event.preventDefault();
+    function handleClick(e) {
+        e.preventDefault();
         setAddToWorkout({
             ...addToWorkout,
-            name: user,
-            exercise_id: parseInt(event.target.id)
+            [e.target.name]: e.target.value
         })
 
-        const individualExercise = parseInt(event.target.id);
+        const individualExercise = (e.target.value);
         if (!workout.includes(individualExercise))
             setWorkout([...workout, individualExercise]);
 
-        fetch("http://localhost:9393/workouts", {
+        fetch("/workouts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
     has_secure_password
 
-    has_one :workout, dependent: :destroy
+    has_many :workout, dependent: :destroy
     has_many :exercises, through: :workout
 
     validates :username, uniqueness: true, presence: true, length: {in: 4..25}

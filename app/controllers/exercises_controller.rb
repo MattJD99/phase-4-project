@@ -2,7 +2,7 @@ class ExercisesController < ApplicationController
 
     def index
         exercises = Exercise.all
-        render json: exercises
+        render json: ExerciseSerializer.new(exercises), status: :ok
     end
 
 end

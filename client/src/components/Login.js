@@ -24,8 +24,7 @@ function Login() {
       // alert("You must fill in all the information please.")
     }
     login(userObj)
-    setMessage({message: "Login successful.", color: "green"})
-    // debugger
+    // setMessage({message: "Login successful.", color: "green"})
     history.push("/profile")
     // debugger
   }

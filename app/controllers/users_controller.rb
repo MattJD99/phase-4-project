@@ -21,12 +21,16 @@ class UsersController < ApplicationController
         # binding.pry
     end
 
+    def update
+        
+    end
+
     def destroy
         # user = User.find_by(params[:_json])
         user = User.find(params[:id])
-        binding.pry
+        # binding.pry
         user.destroy
-        binding.pry
+        # binding.pry
     end
     
     private

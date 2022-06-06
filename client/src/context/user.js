@@ -1,5 +1,5 @@
 import React, {useState, useContext, useCallback} from "react"
-// import {useHistory} from "react-router-dom"
+import {useHistory} from "react-router-dom"
 import {MessageContext} from "../context/message"
 
 const UserContext = React.createContext();
@@ -7,11 +7,13 @@ const UserContext = React.createContext();
 function UserProvider({ children }) {
     const [user, setUser] = useState(null);
     const {setMessage} = useContext(MessageContext)
+    const history = useHistory()
 
     // memoizing specifically involves caching the return values of a function
     const getCurrentUser = useCallback(async () => { 
         try {
             const resp = await fetch("/me")
+            console.log("fetch me")
             //  if (resp.status === 200) {
             if (resp === !null) {
                 const data = await resp.json()
@@ -24,10 +26,11 @@ function UserProvider({ children }) {
                 // setUser({data})
                 debugger
              } else {
-                 debugger
-                const errorObj = await resp.json()
-                setMessage({message:"you are currently a guest.", color: "red"})
-                debugger
+                //  debugger
+                // const errorObj = await resp.json()
+                // debugger
+                setMessage({message:"Welcome to FiTrakr", color: "red"})
+                // debugger
              }
         } catch (e) {
             setMessage({message: e.message, color: "red"})
@@ -35,6 +38,7 @@ function UserProvider({ children }) {
     }, [setMessage])
 
     const login = async (signInData) => {
+        // debugger
         try {
             const resp = await fetch("/login", {
                 method: "POST",
@@ -48,16 +52,22 @@ function UserProvider({ children }) {
                 const data = await resp.json()
                 console.log("data = ", data)
                 console.log("data.data.attributes = ", data.data.attributes)
-                console.log("workout = ", data.data.relationships.workout.data)
-                debugger
-                setUser({...data.data.attributes, workout: data.data.relationships.workout.data})
+                console.log("workout = ", data.data.attributes.workout)
+                // debugger
+                // setUser({...data.data.attributes, workout: data.data.relationships.workout.data})
+                setUser({...data.data.attributes, workout: data.data.attributes.workout})
                 setMessage({message: "Welcome back", color: "green"})
-                debugger
+                // history.push("/profile")
+                // debugger
                 return true
             } else {
-                const errorObj = await resp.json()
-                setMessage({message: errorObj.error, color: "red"})
-                debugger
+                // debugger
+                // const errorObj = await resp.json()
+                // setMessage({message: errorObj.error, color: "red"})
+                setMessage({message: "Invalid credentials, please try again", color: "red"})
+                // history.push("/login")
+
+                // debugger
                 return false
             }
 
@@ -78,14 +88,14 @@ function UserProvider({ children }) {
             })
             // debugger
             if (resp.status === 201) {
+                // debugger
                 const data = await resp.json()
-                setUser({...data.data.attributes, workouts: data.data.relationships.workouts.data})
-                debugger
+                setUser({...data.data.attributes, workout: data.data.relationships.workout.data})
+                // debugger
             } else {
                 const errorObj = await resp.json()
                 setMessage({message: errorObj.error, color: "red"})
             }
-            debugger
 
         } catch(e) {
             setMessage({message: e.message, color: "red"})

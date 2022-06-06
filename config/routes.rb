@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
+  get "/my-workouts", to: "users#show"
+  post "/workout", to: "workouts#update"
+  patch "/workout", to: "workouts#record"
 
   get "./client/public/favicon.ico", to: "fallback#index"
   # Routing logic: fallback requests for React Router.

@@ -13,7 +13,8 @@ function Signup() {
     email: "",
     password: "",
     age: "",
-    weight: ""
+    weight: "",
+    workout: []
   });
 
   const history = useHistory()
@@ -35,6 +36,7 @@ function Signup() {
         if (didItWork) {
             setMessage({message: "User successfully created!", color: "green"})
             history.push("/profile")
+            debugger
     }
   }
 
@@ -51,14 +53,15 @@ function Signup() {
                       <input placeholder="case sensitive" type="password" name="password" value={userObj.password} onChange={handleChange} />
                       <br></br>
                       <label value="email">email: </label> 
-                      <input placeholder="case sensitive" type="text" name="email" value={userObj.email} onChange={handleChange} />
+                      <input placeholder="email" type="text" name="email" value={userObj.email} onChange={handleChange} />
                       <br></br>
                       <label value="age">age: </label> 
-                      <input placeholder="case sensitive" type="integer" name="age" value={userObj.age} onChange={handleChange} />
+                      <input placeholder="age" type="integer" name="age" value={userObj.age} onChange={handleChange} />
                       <br></br>
                       <label value="weight">weight: </label> 
-                      <input placeholder="case sensitive" type="integer" name="weight" value={userObj.weight} onChange={handleChange} />
-                      <input type="submit" value="Login"/>
+                      <input placeholder="weight" type="integer" name="weight" value={userObj.weight} onChange={handleChange} />
+                      <br></br>
+                      <input type="submit" value="Create my Account"/>
                   </form>
                 {/* <p>Current User: {userObj.username === "guest" ? "guest": userObj.username}</p> */}
         </div>

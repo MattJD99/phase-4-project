@@ -4,10 +4,13 @@ class SessionsController < ApplicationController
     # skip_before_action :authorized!, only: [:create]
 
     def create
+        # binding.pry
         user = User.find_by_username(params[:username])
+        # binding.pry
         if user&.authenticate(params[:password])
             # binding.pry
             session[:user_id] = user.id #line responsible for signing someone in
+            # binding.pry
             render json: UserSerializer.new(user), status: :accepted
             # binding.pry
         else

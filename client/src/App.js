@@ -13,14 +13,16 @@ import ExercisesContainer from "./containers/ExercisesContainer"
 import Profile from "./components/Profile"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
-import Signup2 from "./components/Signup2"
+// import Signup2 from "./components/Signup2"
 import Notification from "./components/Notification"
 import Logout from "./components/Logout"
+import {MessageContext} from "./context/message";
 
 function App() {
-  const {getCurrentUser,  user} = useContext(UserContext);
+  const {getCurrentUser, user} = useContext(UserContext);
   const [exercise, setExercise] = useState(null);
   const [workout, setWorkout] = useState(null);
+  const {setMessage} = useContext(MessageContext);
 
   // useEffect(() => {
   //   fetch("http://127.0.0.1:9393/exercises")
@@ -41,36 +43,52 @@ function App() {
       getCurrentUser()
       // debugger
       console.log("useEffect triggered to getCurrentUser")
-  }, [])
+  }, [getCurrentUser])
 
+// need to call server and ask for all exercises
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const resp = await fetch("/exercises");
+            const data = await resp.json();
+            setExercise(data);
+            // setLoading(false);
+        } catch (error) {
+            alert(error);
+        }
+    };
+    fetchData();
+}, []);
+      
 //   useEffect(() => {
 //     const fetchData = async () => {
 //         try {
-//             const resp = await fetch("http://127.0.0.1:9393/exercises");
+//             const resp = await fetch("/my-workouts");
 //             const data = await resp.json();
-//             setExercise(data);
+//             setWorkout(data);
+//             console.log(data)
 //             // setLoading(false);
 //         } catch (error) {
 //             alert(error);
 //         }
 //     };
 //     fetchData();
-// }, []);
-      
+// }, [user]);
  // need to call server and ask for all workouts
-  // useEffect(() => {
-  //   fetch(`http://127.0.0.1:9393/workouts`)
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((workout) => {
-  //         setWorkout(workout)
-  //       });
-  //     } else {
-  //         response.json().then((error) => console.log(error.error))
-  //     }
-  //   })
-  //   .catch(error => console.log(error))
-  // }, [user]);
+  useEffect(() => {
+    fetch("/my-workouts")
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((workout) => {
+          setWorkout(workout)
+          setMessage({message: "Workout loaded successful.", color: "green"})
+        });
+      } else {
+          response.json().then((error) => console.log(error.error))
+      }
+    })
+    .catch(error => console.log(error))
+  }, [user, setMessage]);
 
   return (
     <div className="App">
@@ -86,7 +104,7 @@ function App() {
         <Switch >
 
         <Route path="/exercises/new">
-          <ExerciseForm workout={workout} />
+          <ExerciseForm workout={workout} setWorkout={setWorkout} exercise={exercise}/>
         </Route>
 
         <Route path="/exercises/:id">
