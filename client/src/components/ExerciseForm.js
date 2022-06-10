@@ -2,9 +2,10 @@ import {useState, useContext} from "react"
 import {useHistory} from "react-router-dom"
 import { UserContext } from "../context/user";
 import { MessageContext } from "../context/message";
+import {WorkoutContext} from "../context/workout"
 
-const ExerciseForm = ({ workout, setWorkout, exercise }) => {
-    const {user} = useContext(UserContext)
+const ExerciseForm = ({ exercise }) => {
+    const {user, workout, setWorkout} = useContext(UserContext)
     const {setMessage} = useContext(MessageContext);
     const [exerciseNew, setExerciseNew] = useState({
         id: "",
@@ -14,16 +15,11 @@ const ExerciseForm = ({ workout, setWorkout, exercise }) => {
     });
     console.log(user)
     console.log(user.workout)
-    // debugger
     const history = useHistory()
-    const select = document.getElementById('select');
+    // const select = document.getElementById('select');
 
     function handleChange(e) {
         console.log(e.target.value)
-        console.log(exercise)
-        // console.log(select.selectedIndex);
-        // console.log(select.options[select.selectedIndex].value);
-        // console.log(select.options.target.value);
 
         setExerciseNew({
             ...exerciseNew,
@@ -54,12 +50,11 @@ console.log(newExercise)
             },
             body: JSON.stringify(newExercise)
         })
-        setWorkout(...workout, newExercise)
+        setWorkout(...user.workouts, newExercise)
         setMessage({message: "Workout updated successful.", color: "green"})
-        // .then(() => history.push("/profile"))
-        history.push("/profile")
+        .then(() => history.push("/profile"))
     }
-    // debugger
+    
     return (
         <div>
             <h3>Log Your Exercise</h3> 
@@ -71,7 +66,7 @@ console.log(newExercise)
                     ))}
                  </select> */}
                  <select type="number" name="id" onChange={handleChange}>
-                    {user.workout.map((option) => (
+                    {user.workouts.map((option) => (
                         <option key={Math.random()} value={option.exercise_id}>{option.exercise_id}</option>
                     ))}
                  </select>

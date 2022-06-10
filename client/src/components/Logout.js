@@ -8,19 +8,6 @@ function Logout() {
   const {setMessage} = useContext(MessageContext);
   const history = useHistory()
 
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/logout", {
-  //     method: "DELETE"
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     setUser(null)
-  //     setMessage({message: data.message, status: "successful"})
-  //     history.push("/login")
-  //   })
-  //   .catch(error => console.log(error))
-  // }, [setUser, setMessage, history]);
-
   useEffect(() => {
     const handleSignout = async () => {
         const didItWork = await signout()
@@ -30,7 +17,6 @@ function Logout() {
         }
     }
     handleSignout()
-    // binding.pry
 }, [signout, history, setMessage]);
 
   return (

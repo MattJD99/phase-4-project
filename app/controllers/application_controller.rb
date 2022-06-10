@@ -1,7 +1,7 @@
 require 'pry'
 class ApplicationController < ActionController::API
     include ActionController::Cookies
-    include ActionController::Serialization
+    # include ActionController::Serialization
     rescue_from ActiveRecord::RecordNotFound, with: :no_route
     rescue_from ActiveRecord::RecordInvalid, with: :invalid_record
     # before_action :authorized!
@@ -12,7 +12,6 @@ class ApplicationController < ActionController::API
     def current_user
         # If @current_user is nil or false, it will be set to User.find(session[:user_id])
         @current_user ||= User.find(session[:user_id]) if session[:user_id]
-        # binding.pry
     end
 
     def authorized!

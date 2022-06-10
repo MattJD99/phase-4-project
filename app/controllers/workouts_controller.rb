@@ -2,33 +2,23 @@ require 'pry'
 class WorkoutsController < ApplicationController
 
     def index
-        # workouts = Workout.where(user_id: @current_user.id)
-        workouts = Workout.all
-        # find_workout
-        # render json: PostSerializer.new(Post.preload(:comments)).serializable_hash, status: :ok
-        render json: WorkoutSerializer.new(workouts), status: :ok
+        render json: WorkoutSerializer.new(Workout.preload(:exercise)).serializable_hash, status: :ok
     end
 
     def update
-        # user = User.find(params[:user_id])
-        # @current_user = User.find_by(params[:user_id])
-        @workout = Workout.create(
-            exercise_id: (params[:exercise_id]), 
-            user_id: (params[:user_id]),
-            sets: (params[:sets]),
-            reps: (params[:reps]),
-            weight: (params[:weight]))
-        render json: @workout, status: :created
+        if current_user.workout.include?(@workout)
+            @workout.update!(workout_params)
+            render json: WorkoutSerializer.new(@workout).serializable_hash, status: :ok
+        else
+            render json: {error: "You don't have access to this workout"}, status: :unauthorized
+        end
     end
 
     def record
-        # binding.pry
         # @current_user = User.find_by(params[:user_id])
         workout = Workout.find_by(id: params[:id])
-        # binding.pry
         workout.update(workout_params)
         render json: workout, status: :ok
-        # binding.pry
     end
 
     private

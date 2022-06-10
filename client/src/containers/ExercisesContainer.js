@@ -2,8 +2,8 @@ import { useState, useContext } from "react"
 import ExercisesList from "../components/ExercisesList"
 import { UserContext } from "../context/user"
 
-function ExercisesContainer({ workout, setWorkout, exercise }) {
-    const {user} = useContext(UserContext);
+function ExercisesContainer({ exercise }) {
+    const {user, workout, setWorkout} = useContext(UserContext);
     
     const [addToWorkout, setAddToWorkout] = useState({
             user_id: "",

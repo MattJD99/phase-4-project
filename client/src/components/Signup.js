@@ -20,7 +20,6 @@ function Signup() {
   const history = useHistory()
 
   function handleChange(e) {
-    // console.log(e.target.value)
     setUserObj({
       ...userObj,
       [e.target.name]: e.target.value

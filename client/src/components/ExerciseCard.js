@@ -8,7 +8,6 @@ function ExerciseCard({ exercise }) {
     const [workoutObj, setWorkoutObj] = useState({
       user_id: "",
       exercise_id: "",
-      // exercise_name: null
     })
 
     function handleClick(e) {
@@ -16,9 +15,8 @@ function ExerciseCard({ exercise }) {
       setWorkoutObj({
         user_id: user.id,
         exercise_id: e.target.value,
-        // exercise_name: exercise.exercise_name
-        // [e.target.name]: e.target.value
       });
+      
       console.log(workoutObj)
 
       if (workoutObj.exercise_id !== "")
@@ -36,12 +34,12 @@ function ExerciseCard({ exercise }) {
     if (!exercise) return <h1>Loading...</h1>
   return (
     <div>
-        <h3>Name: <Link to={`/exercises/${exercise.id}`}>{exercise.exercise_name}</Link></h3>
-        <h4>description: {exercise.description}</h4>
+        <h3>Name: <Link to={`/exercises/${exercise.id}`}>{exercise.attributes.exercise_name}</Link></h3>
+        <h4>description: {exercise.attributes.description}</h4>
         {user ? <form onClick={handleClick}>
                   <button key={exercise.exercise_name} id={exercise.id} value={exercise.id}>Add to your Workout</button>
                 </form> : null}
-        <h4>Video: <YoutubeEmbed embedId={exercise.video_link}/> </h4>
+        <h4>Video: <YoutubeEmbed embedId={exercise.attributes.video_link}/> </h4>
     </div>
   )
 }

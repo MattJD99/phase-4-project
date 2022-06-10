@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post "/auth/:provider/callback", to: "sessions#omniauth"
   
   get "/users", to: "users#index"
-  post "/signup", to: "users#create"
+  post "/users", to: "users#create"
   get "/me", to: "users#show"
   delete "/users", to: "users#destroy"
 
